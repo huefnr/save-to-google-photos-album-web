@@ -1,5 +1,6 @@
-# Save to Google Photos Album — Home
+# Save to Google Photos Album — Website
 
-Landing page for the **Save to Google Photos Album** Chrome extension, published with GitHub Pages.
+Home page and privacy policy for the **Save to Google Photos Album** Chrome extension, published with GitHub Pages.
 
-Live: https://huefnr.github.io/save-to-google-photos-album-home/
+- Home: https://huefnr.github.io/save-to-google-photos-album-web/
+- Privacy: https://huefnr.github.io/save-to-google-photos-album-web/privacy/
