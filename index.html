@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Save any image on the web to Google Photos — and choose the album — from the right-click menu.">
+    <title>Save to Google Photos Album</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: Inter, Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: #191f28;
+        background: #f2f4f6;
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; padding: 56px 20px; line-height: 1.7; }
+      main { max-width: 760px; margin: 0 auto; }
+      .card {
+        padding: 44px 48px;
+        border: 1px solid #e5e8eb;
+        border-radius: 24px;
+        background: #fff;
+        box-shadow: 0 12px 36px rgba(25, 31, 40, .06);
+      }
+      .brand { display: flex; align-items: center; gap: 14px; }
+      .brand svg { width: 44px; height: 44px; display: block; }
+      .brand h1 { margin: 0; font-size: clamp(24px, 4.5vw, 34px); letter-spacing: -.03em; }
+      .tagline { margin: 18px 0 26px; font-size: clamp(16px, 2.4vw, 19px); color: #4e5968; }
+      .cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+      .btn {
+        display: inline-flex; align-items: center; gap: 8px;
+        padding: 11px 18px; border-radius: 12px;
+        font-weight: 600; text-decoration: none;
+        background: #1a73e8; color: #fff;
+      }
+      .btn:hover { filter: brightness(.96); }
+      .btn.ghost { background: #eef1f4; color: #1f2937; }
+      h2 { margin: 34px 0 10px; font-size: 20px; letter-spacing: -.02em; }
+      ul { margin: 8px 0; padding-left: 22px; }
+      li { margin: 6px 0; }
+      ol { margin: 8px 0; padding-left: 22px; }
+      .note { margin-top: 10px; font-size: 13px; color: #8b95a1; }
+      footer { max-width: 760px; margin: 22px auto 0; text-align: center; font-size: 13px; color: #8b95a1; }
+      footer a { color: #6b7684; text-decoration: none; }
+      footer a:hover { text-decoration: underline; }
+      @media (max-width: 600px) {
+        body { padding: 0; }
+        .card { padding: 32px 24px; border: 0; border-radius: 0; box-shadow: none; }
+        footer { margin-top: 16px; padding: 0 24px 28px; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="card">
+        <div class="brand">
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <g transform="translate(50 50) scale(1.06) translate(-50 -50)">
+              <path d="M50 47 C 37 41 35 23 47 9 C 48.5 7 51.5 7 53 9 C 65 23 63 41 50 47 Z" fill="#4285F4" transform="rotate(28 50 50)"/>
+              <path d="M50 47 C 37 41 35 23 47 9 C 48.5 7 51.5 7 53 9 C 65 23 63 41 50 47 Z" fill="#EA4335" transform="rotate(118 50 50)"/>
+              <path d="M50 47 C 37 41 35 23 47 9 C 48.5 7 51.5 7 53 9 C 65 23 63 41 50 47 Z" fill="#FBBC04" transform="rotate(208 50 50)"/>
+              <path d="M50 47 C 37 41 35 23 47 9 C 48.5 7 51.5 7 53 9 C 65 23 63 41 50 47 Z" fill="#34A853" transform="rotate(298 50 50)"/>
+            </g>
+          </svg>
+          <h1>Save to Google Photos Album</h1>
+        </div>
+
+        <p class="tagline">Save any image on the web to Google Photos — and choose the album it goes into — right from the right-click menu.</p>
+
+        <div class="cta">
+          <a class="btn" href="https://chromewebstore.google.com/detail/plkmjbhjcapopbeencbedeekhghcpiho">Add to Chrome</a>
+          <a class="btn ghost" href="https://huefnr.github.io/save-to-google-photos-album-privacy/">Privacy Policy</a>
+        </div>
+        <p class="note">Available on Chrome and other Chromium browsers.</p>
+
+        <h2>What it does</h2>
+        <ul>
+          <li>Right-click any image and open <strong>Save to Google Photos Album</strong>.</li>
+          <li>Save to your library, an existing album, or a new album you create on the spot.</li>
+          <li>Unlike most tools, you pick the exact album — not just the main library.</li>
+          <li>Works with regular images, responsive images, and image links.</li>
+          <li>Images upload straight to your Google Photos — no third-party server, no tracking.</li>
+        </ul>
+
+        <h2>How it works</h2>
+        <ol>
+          <li>Install the extension and sign in with your Google account.</li>
+          <li>Right-click an image on any web page.</li>
+          <li>Open <strong>Save to Google Photos Album</strong> and choose a destination.</li>
+          <li>The image is saved to your Google Photos. Done.</li>
+        </ol>
+
+        <h2>Privacy</h2>
+        <p>The extension can't browse your Google Photos or read your photos. It only uploads the images you choose and lists the albums it created. Nothing is sent to any third-party server. See the <a href="https://huefnr.github.io/save-to-google-photos-album-privacy/">Privacy Policy</a> for details.</p>
+      </div>
+      <footer>
+        Save to Google Photos Album ·
+        <a href="https://huefnr.github.io/save-to-google-photos-album-privacy/">Privacy Policy</a>
+      </footer>
+    </main>
+  </body>
+</html>
