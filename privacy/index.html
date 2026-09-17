@@ -65,7 +65,7 @@
 </svg>
       </div>
       <h1>Privacy Policy</h1>
-      <p class="updated">Save to Google Photos Album · Last updated September 15, 2026</p>
+      <p class="updated">Save to Google Photos Album · Last updated September 17, 2026</p>
 
       <section lang="en">
         <h2>Overview</h2>
@@ -86,8 +86,36 @@
         <h2>Data not collected</h2>
         <p>The extension cannot browse your Google Photos library or read your photos. It does not collect your browsing history, website content, search queries, analytics, or advertising identifiers.</p>
 
-        <h2>Data sharing and external services</h2>
-        <p>Images you save are uploaded directly from your browser to Google's Photos API. No user data is transmitted to the developer or shared with third parties. The extension contains no analytics, tracking technologies, advertising, remote code, or other external network requests.</p>
+        <h2>How Google user data is used</h2>
+        <p>Google user data obtained through the extension (the images you choose to save, the albums it created, and your email address) is used solely to provide the feature you invoke: uploading the chosen image to your Google Photos, creating or selecting an album for it, and showing which account is connected. It is not used for advertising, profiling, analytics, or to develop, improve, or train any AI or machine-learning models.</p>
+
+        <h2>Data sharing, transfer, and disclosure</h2>
+        <p>The developer does not share, transfer, sell, or disclose Google user data to any third party. Specifically:</p>
+        <ul>
+          <li>Images you save are uploaded directly from your browser to Google's Photos Library API (<code>photoslibrary.googleapis.com</code>). Your email address is retrieved from Google's OAuth userinfo endpoint and displayed only in the popup. Google's handling of that data is governed by the <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a>.</li>
+          <li>No data passes through, or is stored on, any server operated by the developer. There are no analytics, tracking technologies, advertising networks, remote code, or other external network requests.</li>
+          <li>No data is transferred to any other person, company, or service, in any country. The developer would disclose data only if required by law; because the developer holds no user data, there is nothing that could be disclosed.</li>
+        </ul>
+
+        <h2>Data protection</h2>
+        <p>The extension protects the sensitive data it handles as follows:</p>
+        <ul>
+          <li>Authentication uses Google's OAuth 2.0 flow via the Chrome identity API. The extension never sees or stores your Google password.</li>
+          <li>The OAuth access token is kept only in Chrome's extension-private storage (<code>chrome.storage.local</code>), which is isolated from web pages by the browser's extension sandbox. It is never written into any web page, exposed to page scripts, logged, or sent anywhere other than Google's own API endpoints.</li>
+          <li>The token is short-lived (it expires within about one hour and is re-obtained through Google when needed). No refresh token is stored.</li>
+          <li>All network traffic between the extension and Google uses HTTPS/TLS.</li>
+          <li>The extension requests only the minimum scopes needed: it can add images and create albums, and can list only the albums it created. It cannot read, browse, or download your existing photos or albums.</li>
+          <li>The extension runs only in response to your explicit actions (right-clicking an image and choosing a menu item, or using the popup).</li>
+        </ul>
+
+        <h2>Data retention and deletion</h2>
+        <ul>
+          <li><strong>Access token and album list:</strong> kept only on your device. Both are deleted when you click <em>Sign out</em> in the popup (which also revokes the token with Google) or when you remove the extension. The token additionally expires on its own within about one hour.</li>
+          <li><strong>Theme preference:</strong> kept in Chrome Storage Sync until you remove the extension.</li>
+          <li><strong>Images and albums saved to Google Photos:</strong> stored by Google in your own Google Photos account, not by the developer. You can view, edit, or delete them at any time in Google Photos; deletion there is governed by Google's retention practices.</li>
+          <li><strong>Revoking access:</strong> you can revoke the extension's access to your Google account at any time at <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener">myaccount.google.com/permissions</a>. Revocation takes effect immediately; the extension will simply ask you to sign in again if you use it afterwards.</li>
+          <li>The developer retains no Google user data, so there is no developer-side data to delete and no retention period beyond what is described above.</li>
+        </ul>
 
         <h2>Limited Use</h2>
         <p>The use of information received from Google APIs and Chrome APIs adheres to the Google API Services User Data Policy and the Chrome Web Store User Data Policy, including the Limited Use requirements.</p>
