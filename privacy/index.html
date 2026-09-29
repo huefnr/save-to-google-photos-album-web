@@ -66,7 +66,7 @@
 </svg>
       </div>
       <h1>Privacy Policy</h1>
-      <p class="updated">Save to Google Photos Album · Last updated September 28, 2026</p>
+      <p class="updated">Save to Google Photos Album · Last updated September 29, 2026</p>
 
       <section lang="en">
         <h2>Overview</h2>
@@ -81,6 +81,14 @@
         </ul>
         <p>It handles only the specific images you choose to save.</p>
 
+        <h2>Website access</h2>
+        <ul>
+          <li>The extension has no access to the websites you visit by default, and nothing from it runs on a page until you use it.</li>
+          <li>When you choose "Save to Google Photos Album" from the right-click menu, Chrome gives the extension temporary access to that one tab (the <code>activeTab</code> permission). It uses this only to find the image you right-clicked, show its dialog and result message, and read that image. The access ends when the tab navigates away or is closed.</li>
+          <li>To read the image, the extension first asks the page itself to load it, in the same way the page already displays it (including the site's own cookies for its own images). The extension does not read, store, or send the site's cookies or any other page content.</li>
+          <li>Some image hosts do not allow this. In that case the extension shows a window asking you to allow access to that one host (for example <code>cdn.example.com</code>), and Chrome asks you to confirm. Access is requested only when you save an image from that host, is used only to download the images you choose to save, and can be removed at any time on the extension's details page in Chrome.</li>
+        </ul>
+
         <h2>Data stored by the extension</h2>
         <p>Stored locally in your browser: the Google sign-in token, the email address and Google account ID of the signed-in account (so the sign-in can be renewed without asking again), and a cached list of the albums this extension created. Your appearance (theme) preference is stored with Chrome Storage Sync and may sync between Chrome browsers signed in to the same Google account. The developer cannot access any of this.</p>
 
@@ -94,7 +102,8 @@
         <p>The developer does not share, transfer, sell, or disclose Google user data to any third party. Specifically:</p>
         <ul>
           <li>Images you save are uploaded directly from your browser to Google's Photos Library API (<code>photoslibrary.googleapis.com</code>). Your email address is retrieved from Google's OAuth userinfo endpoint and displayed only in the popup. Google's handling of that data is governed by the <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a>.</li>
-          <li>No data passes through, or is stored on, any server operated by the developer. There are no analytics, tracking technologies, advertising networks, remote code, or other external network requests.</li>
+          <li>To save an image, the extension downloads it from the website that hosts it, then uploads it to Google. Apart from that download, the extension communicates only with Google's sign-in and Photos endpoints.</li>
+          <li>No data passes through, or is stored on, any server operated by the developer. There are no analytics, tracking technologies, advertising networks, or remote code.</li>
           <li>No data is transferred to any other person, company, or service, in any country. The developer would disclose data only if required by law; because the developer holds no user data, there is nothing that could be disclosed.</li>
         </ul>
 
@@ -113,6 +122,7 @@
         <ul>
           <li><strong>Access token, signed-in account (email and account ID), and album list:</strong> kept only on your device. All are deleted when you click <em>Sign out</em> in the popup (which also revokes the token with Google) or when you remove the extension. The token additionally expires on its own within about one hour.</li>
           <li><strong>Theme preference:</strong> kept in Chrome Storage Sync until you remove the extension.</li>
+          <li><strong>Access to image hosts you allowed:</strong> kept by Chrome until you remove it on the extension's details page or remove the extension. The extension keeps no record of the sites you visited.</li>
           <li><strong>Images and albums saved to Google Photos:</strong> stored by Google in your own Google Photos account, not by the developer. You can view, edit, or delete them at any time in Google Photos; deletion there is governed by Google's retention practices.</li>
           <li><strong>Revoking access:</strong> you can revoke the extension's access to your Google account at any time at <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener">myaccount.google.com/permissions</a>. Revocation takes effect immediately; the extension will simply ask you to sign in again if you use it afterwards.</li>
           <li>The developer retains no Google user data, so there is no developer-side data to delete and no retention period beyond what is described above.</li>
