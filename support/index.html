@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="../icon.svg" type="image/svg+xml">
+    <link rel="canonical" href="https://save-to-album.com/support/">
+    <meta name="description" content="Report an issue with the Save to Google Photos Album extension.">
+    <link rel="stylesheet" href="../styles.css?v=20261107-1">
+    <title>Report an issue | Save to Google Photos Album</title>
+  </head>
+  <body class="support-page">
+    <header class="site-header">
+      <nav class="site-nav" aria-label="Home">
+        <a class="site-brand" href="../"><img src="../icon.svg" alt=""><span>Save to Google Photos Album</span></a>
+      </nav>
+    </header>
+
+    <main class="support-shell">
+      <header class="support-heading">
+        <h1>Report an issue</h1>
+        <p>Send the details to <a href="mailto:support@save-to-album.com">support@save-to-album.com</a>.</p>
+      </header>
+
+      <form id="issueForm" class="support-form">
+        <label for="category">Issue type</label>
+        <select id="category" name="category" required>
+          <option value="" selected disabled>Select an issue type</option>
+          <option>Saving an image</option>
+          <option>Albums</option>
+          <option>Google sign-in</option>
+          <option>Right-click menu</option>
+          <option>Plus or billing</option>
+          <option>Other</option>
+        </select>
+
+        <label for="subject">Short summary</label>
+        <input id="subject" name="subject" type="text" maxlength="120" autocomplete="off" required>
+
+        <label for="details">What happened?</label>
+        <textarea id="details" name="details" rows="6" maxlength="2000" required></textarea>
+
+        <label for="expected">What did you expect?</label>
+        <textarea id="expected" name="expected" rows="3" maxlength="800"></textarea>
+
+        <label for="email">Reply-to email <span class="optional">Optional</span></label>
+        <input id="email" name="email" type="email" maxlength="254" autocomplete="email">
+
+        <label class="technical-option" for="includeTechnical">
+          <input id="includeTechnical" name="includeTechnical" type="checkbox" checked>
+          <span>Include extension version and browser details</span>
+        </label>
+        <p class="form-note">Technical details do not automatically include browsing history, photos, album names, or Google account details. Do not enter passwords or payment-card details in your report.</p>
+
+        <div class="form-actions">
+          <button class="button primary" type="submit">Open email draft</button>
+          <button id="copyReport" class="button secondary" type="button">Copy report</button>
+        </div>
+        <p id="formStatus" class="form-status" role="status" aria-live="polite"></p>
+      </form>
+
+      <p class="support-fallback">You can also email <a href="mailto:support@save-to-album.com">support@save-to-album.com</a> directly.</p>
+    </main>
+
+    <footer class="home-footer">
+      <nav aria-label="Footer navigation"><a href="../#plans">Pricing</a><a href="../privacy/">Privacy</a><a href="../terms/">Terms</a><a href="../refunds/">Refunds</a><a href="./">Support</a></nav>
+      <p>This extension is not affiliated with or endorsed by Google. Google Photos is a trademark of Google LLC.</p>
+    </footer>
+    <script src="support.js"></script>
+  </body>
+</html>
