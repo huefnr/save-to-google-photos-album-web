@@ -89,12 +89,14 @@ try {
       }
       if (pathname === "/support/") assert.equal(await page.locator('a[href="../faq/#existing-albums"]').count(), 1);
       if (pathname === "/checkout/") {
+        assert.equal(await page.locator("h1").innerText(), "Save to Google Photos Album Plus Plan");
         assert.match(await page.locator("#status").innerText(), /Open checkout from the extension's Manage Plan page/);
         const config = await page.evaluate(() => window.SAVE_TO_ALBUM_CHECKOUT);
         assert.equal(config.environment, "sandbox");
         assert.match(config.clientToken, /^test_[a-z0-9]+$/);
       }
       if (pathname === "/checkout/live-test/") {
+        assert.equal(await page.locator("h1").innerText(), "Save to Google Photos Album Plus Plan");
         assert.match(await page.locator("#status").innerText(), /Open the checkout link provided for your trial/);
         const config = await page.evaluate(() => window.SAVE_TO_ALBUM_CHECKOUT);
         assert.equal(config.environment, "live");
