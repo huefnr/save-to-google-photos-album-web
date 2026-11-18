@@ -100,6 +100,8 @@ try {
         assert.equal(config.environment, "live");
         assert.match(config.clientToken, /^live_[a-z0-9]+$/);
         assert.match(await page.locator(".renewal-disclosure").innerText(), /live subscription/);
+        assert.match(await page.locator(".checkout-panel").innerText(), /Any trial offer is shown at checkout/);
+        assert.doesNotMatch(await page.locator(".checkout-panel").innerText(), /7-day free trial/);
         assert.equal(await page.locator("#test-mode").count(), 0);
       }
       if (width !== 390) await page.screenshot({ path: `${output}/${pathname.replaceAll("/", "") || "home"}-${width}.png`, fullPage: pathname === "/" || pathname === "/faq/" });
