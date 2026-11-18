@@ -9,7 +9,7 @@ if (testModeEl) testModeEl.hidden = config.environment !== "sandbox";
 if (!config.clientToken) {
   statusEl.textContent = "Checkout isn't available yet. Return to the extension and try again later.";
 } else if (!transactionId) {
-  statusEl.textContent = "Open checkout from the extension's Manage Plan page.";
+  statusEl.textContent = config.missingTransactionMessage || "Open checkout from the extension's Manage Plan page.";
 } else {
   try {
     if (!globalThis.Paddle?.Initialize) throw new Error("Checkout failed to load");

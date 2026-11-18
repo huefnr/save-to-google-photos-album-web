@@ -26,7 +26,7 @@ let checks = 0;
 try {
   browser = await chromium.launch({ headless: true, ...(process.env.CHROME_CHANNEL ? { channel: process.env.CHROME_CHANNEL } : {}) });
   const base = `http://127.0.0.1:${server.address().port}`;
-  const pages = ["/", "/faq/", "/terms/", "/privacy/", "/refunds/", "/support/", "/checkout/"];
+  const pages = ["/", "/faq/", "/terms/", "/privacy/", "/refunds/", "/support/", "/checkout/", "/checkout/live-test/"];
   for (const width of [360, 390, 1280]) {
     const page = await browser.newPage({ viewport: { width, height: 900 } });
     const faults = [];
@@ -93,6 +93,14 @@ try {
         const config = await page.evaluate(() => window.SAVE_TO_ALBUM_CHECKOUT);
         assert.equal(config.environment, "sandbox");
         assert.match(config.clientToken, /^test_[a-z0-9]+$/);
+      }
+      if (pathname === "/checkout/live-test/") {
+        assert.match(await page.locator("#status").innerText(), /Open the checkout link provided for your trial/);
+        const config = await page.evaluate(() => window.SAVE_TO_ALBUM_CHECKOUT);
+        assert.equal(config.environment, "live");
+        assert.match(config.clientToken, /^live_[a-z0-9]+$/);
+        assert.match(await page.locator(".renewal-disclosure").innerText(), /live subscription/);
+        assert.equal(await page.locator("#test-mode").count(), 0);
       }
       if (width !== 390) await page.screenshot({ path: `${output}/${pathname.replaceAll("/", "") || "home"}-${width}.png`, fullPage: pathname === "/" || pathname === "/faq/" });
       checks++;

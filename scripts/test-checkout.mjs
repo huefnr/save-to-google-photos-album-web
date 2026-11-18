@@ -4,11 +4,11 @@ import fs from "node:fs";
 import vm from "node:vm";
 
 const source = fs.readFileSync(new URL("../checkout/checkout.js", import.meta.url), "utf8");
-function run({ token = "test_public", query = "?_ptxn=txn_test", sdk = true } = {}) {
+function run({ token = "test_public", query = "?_ptxn=txn_test", sdk = true, mode = "sandbox", missingTransactionMessage } = {}) {
   const status = { textContent: "" }, badge = { hidden: true };
   let callback, environment;
   const context = {
-    window: { SAVE_TO_ALBUM_CHECKOUT: { environment: "sandbox", clientToken: token } },
+    window: { SAVE_TO_ALBUM_CHECKOUT: { environment: mode, clientToken: token, missingTransactionMessage } },
     location: { search: query }, URLSearchParams,
     document: { querySelector: name => name === "#status" ? status : badge },
     ...(sdk ? { Paddle: { Environment: { set: value => { environment = value; } },
@@ -36,4 +36,22 @@ test("missing token, transaction or SDK produce clear non-success states", () =>
   assert.match(run({ token: "" }).status.textContent, /isn't available/);
   assert.match(run({ query: "" }).status.textContent, /Manage Plan/);
   assert.match(run({ sdk: false }).status.textContent, /Couldn't open/);
+});
+
+test("isolated Live checkout does not enable Sandbox or show a no-real-charges label", () => {
+  const r = run({ mode: "live", token: "live_public" });
+  assert.equal(r.environment, undefined);
+  assert.equal(r.badge.hidden, true);
+  assert.match(r.status.textContent, /opening/);
+  assert.match(run({ query: "", missingTransactionMessage: "Open your trial link." }).status.textContent, /Open your trial link/);
+});
+
+test("public and isolated checkout configuration stay in separate environments", () => {
+  const sandbox = {}, live = {};
+  vm.runInNewContext(fs.readFileSync(new URL("../checkout/config.js", import.meta.url), "utf8"), { window: sandbox, Object });
+  vm.runInNewContext(fs.readFileSync(new URL("../checkout/live-test/config.js", import.meta.url), "utf8"), { window: live, Object });
+  assert.equal(sandbox.SAVE_TO_ALBUM_CHECKOUT.environment, "sandbox");
+  assert.match(sandbox.SAVE_TO_ALBUM_CHECKOUT.clientToken, /^test_/);
+  assert.equal(live.SAVE_TO_ALBUM_CHECKOUT.environment, "live");
+  assert.match(live.SAVE_TO_ALBUM_CHECKOUT.clientToken, /^live_/);
 });
