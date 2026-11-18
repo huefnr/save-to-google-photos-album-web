@@ -46,7 +46,7 @@ try {
       if (pathname === "/") {
         await page.getByRole("heading", { name: "Plans", exact: true }).waitFor();
         assert.match(await page.locator("#plans").innerText(), /7-day free trial/);
-        assert.match(await page.locator("#plans").innerText(), /not yet open for purchase/);
+        assert.match(await page.locator("#plans").innerText(), /Plus is coming soon/);
         assert.match(await page.locator("#plans").innerText(), /14\.99/);
         assert.equal(await page.locator("#faq").count(), 0);
         assert.equal(await page.locator(".operator-note").innerText(), "Developed and operated by Autonomous Affairs");
