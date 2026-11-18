@@ -26,7 +26,7 @@ let checks = 0;
 try {
   browser = await chromium.launch({ headless: true, ...(process.env.CHROME_CHANNEL ? { channel: process.env.CHROME_CHANNEL } : {}) });
   const base = `http://127.0.0.1:${server.address().port}`;
-  const pages = ["/", "/terms/", "/privacy/", "/refunds/", "/support/", "/checkout/"];
+  const pages = ["/", "/faq/", "/terms/", "/privacy/", "/refunds/", "/support/", "/checkout/"];
   for (const width of [360, 390, 1280]) {
     const page = await browser.newPage({ viewport: { width, height: 900 } });
     const faults = [];
@@ -47,16 +47,60 @@ try {
         await page.getByRole("heading", { name: "Plans", exact: true }).waitFor();
         assert.match(await page.locator("#plans").innerText(), /7-day free trial/);
         assert.match(await page.locator("#plans").innerText(), /not yet open for purchase/);
-        assert.match(await page.locator("#plans").innerText(), /19\.99/);
+        assert.match(await page.locator("#plans").innerText(), /14\.99/);
+        assert.equal(await page.locator("#faq").count(), 0);
+        assert.equal(await page.locator(".operator-note").innerText(), "Developed and operated by Autonomous Affairs");
+        await page.locator('footer a[href="faq/"]').click();
+        assert.equal(new URL(page.url()).pathname, "/faq/");
+        await page.goto(base);
       }
-      if (pathname === "/checkout/") assert.match(await page.locator("#status").innerText(), /isn't available yet/);
-      if (width !== 390) await page.screenshot({ path: `${output}/${pathname.replaceAll("/", "") || "home"}-${width}.png`, fullPage: pathname === "/" });
+      if (pathname === "/faq/") {
+        const faq = page.locator(".faq-answers");
+        assert.equal(await faq.locator("h2").count(), 6);
+        await faq.getByRole("heading", { name: "Can I Save to an Existing Google Photos Album?", exact: true }).waitFor();
+        for (const question of [
+          "Can I Save Without Choosing an Album?",
+          "Why Does the Extension Ask for Website Access?",
+          "Can the Extension See My Existing Photos?",
+          "Do I Need a Subscription?",
+          "Will I Lose My Saved Images If I Uninstall the Extension?"
+        ]) await faq.getByRole("heading", { name: question, exact: true }).waitFor();
+        assert.equal(await faq.locator('a[href="../privacy/"]').count(), 1);
+        assert.equal(await faq.locator('a[href="../#plans"]').count(), 1);
+        assert.equal(await faq.locator("ol > li").count(), 3);
+        assert.match(await faq.innerText(), /Delete only the old album, not its photos or videos/);
+        assert.match(await faq.innerText(), /same name does not connect or merge/);
+        assert.match(await faq.innerText(), /Sharing links and comments.*do not transfer/);
+        const anchors = await page.locator("#questions a").evaluateAll(nodes => nodes.map(node => node.getAttribute("href")));
+        assert.equal(anchors.length, 6);
+        for (const anchor of anchors) {
+          await page.locator(`#questions a[href="${anchor}"]`).click();
+          assert.equal(new URL(page.url()).hash, anchor);
+          const target = page.locator(anchor);
+          assert.equal(await target.count(), 1);
+          const bounds = await target.boundingBox();
+          assert.ok(bounds.y >= 0 && bounds.y + bounds.height <= 900, `Anchor not in view: ${anchor}`);
+          await target.locator("..").getByRole("link", { name: "Back to Questions" }).click();
+          assert.equal(new URL(page.url()).hash, "#questions");
+        }
+        await page.goto(base + "/faq/#existing-albums");
+        await page.locator("#existing-albums").waitFor();
+        await page.goto(base + "/faq/");
+      }
+      if (pathname === "/support/") assert.equal(await page.locator('a[href="../faq/#existing-albums"]').count(), 1);
+      if (pathname === "/checkout/") {
+        assert.match(await page.locator("#status").innerText(), /Open checkout from the extension's Manage Plan page/);
+        const config = await page.evaluate(() => window.SAVE_TO_ALBUM_CHECKOUT);
+        assert.equal(config.environment, "sandbox");
+        assert.match(config.clientToken, /^test_[a-z0-9]+$/);
+      }
+      if (width !== 390) await page.screenshot({ path: `${output}/${pathname.replaceAll("/", "") || "home"}-${width}.png`, fullPage: pathname === "/" || pathname === "/faq/" });
       checks++;
     }
     assert.deepEqual(faults, []);
     await page.close();
   }
-  console.log(`${checks} page/viewport checks passed; links, image loading, pricing and closed checkout verified. Screenshots: ${output}`);
+  console.log(`${checks} page/viewport checks passed; links, image loading, pricing and sandbox checkout entry verified. Screenshots: ${output}`);
 } finally {
   if (browser) await browser.close();
   await new Promise(resolve => server.close(resolve));
