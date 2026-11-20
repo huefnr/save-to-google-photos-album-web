@@ -37,3 +37,18 @@ supersedes the earlier form requirements. No Short Summary is present.
 
 Only the reviewed support/refund/privacy/style subset is released from an
 isolated worktree based on the public price-only commit 283ec3f.
+
+## Automatic Report Details
+
+Both draft actions now always include Product: Save to Google Photos Album,
+extension version when supplied by the entry link, browser user-agent and
+OS/platform. No Include Details checkbox. Version values are validated; raw
+query parameters, browsing URLs and Google identity are not added automatically.
+Missing versions are labeled Not provided rather than guessed. Privacy and the
+form disclose the included environment information.
+
+New production-script assertions failed before implementation (4 failures),
+then all 9 support cases passed; 17 including neighboring checkout cases.
+The browser suite passed 24 page/viewport checks. A simulated Windows platform
+unit case checks formatting only: it is not actual Windows execution evidence.
+No actual Windows runner or native Windows email-app check has been completed.

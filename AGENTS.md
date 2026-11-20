@@ -10,6 +10,9 @@
 - Draft recipient is contact@autonomousaffairs.com. Opening/copying a draft is
   not sending a message. Do not call support APIs or claim mail was delivered.
   Attachments must be added in the email app; do not offer unusable file uploads.
+- Both draft paths must always include the product name, browser/OS and available
+  extension version. Do not put those details behind an opt-in checkbox. Do not
+  automatically include Google identity, browsing URLs or raw query parameters.
 - Public support intake cannot authorize account deletion. Verify ownership
   through authenticated confirmation; do not infer it from a supplied email.
 - Local implementation and public deployment are separate states. For public

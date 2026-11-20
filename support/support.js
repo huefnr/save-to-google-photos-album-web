@@ -5,6 +5,19 @@ const recipient = "contact@autonomousaffairs.com";
 const subject = "Save to Google Photos Album Support Request";
 let copying = false;
 
+function reportDetails(message) {
+  const suppliedVersion = new URLSearchParams(window.location.search).get("version") || "";
+  const version = /^\d{1,3}\.\d{1,3}\.\d{1,3}(?:-[a-zA-Z0-9.-]{1,40})?$/.test(suppliedVersion) ? suppliedVersion : "Not provided";
+  const singleLine = value => String(value || "Not provided").replace(/[\x00-\x1f\x7f]/g, " ").slice(0, 512);
+  return [
+    "Product: Save to Google Photos Album",
+    `Extension Version: ${version}`,
+    `Browser: ${singleLine(navigator.userAgent)}`,
+    `OS/Platform: ${singleLine(navigator.userAgentData?.platform || navigator.platform)}`,
+    "", "Message:", message
+  ].join("\n");
+}
+
 function draftMessage() {
   if (!form.reportValidity()) return null;
   const message = form.elements.message.value.trim();
@@ -12,7 +25,7 @@ function draftMessage() {
     status.textContent = "Describe your expectation and what happened instead.";
     return null;
   }
-  return message;
+  return reportDetails(message);
 }
 
 form.addEventListener("submit", (event) => {

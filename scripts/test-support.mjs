@@ -5,14 +5,14 @@ import vm from "node:vm";
 
 const source = fs.readFileSync(new URL("../support/support.js", import.meta.url), "utf8");
 const html = fs.readFileSync(new URL("../support/index.html", import.meta.url), "utf8");
-function fixture({ valid = true, write = async () => {} } = {}) {
+function fixture({ valid = true, write = async () => {}, search = "?version=0.16.8&source=plans", platform = "MacIntel", userAgent = "Chrome test agent", userAgentData } = {}) {
   const events = {}, calls = [];
   const status = { textContent: "" }, copy = { disabled: false, addEventListener: (name, fn) => { events.copy = fn; } };
   const message = { value: " Expected a saved photo. Instead, nothing appeared. " };
   const form = { elements: { message }, reportValidity: () => valid, addEventListener: (name, fn) => { events[name] = fn; } };
-  const location = { href: "" };
+  const location = { href: "", search };
   vm.runInNewContext(source, { document: { querySelector: selector => ({ "#issueForm": form, "#formStatus": status, "#copyDraft": copy })[selector] },
-    window: { location }, navigator: { clipboard: { writeText: text => { calls.push(text); return write(text); } } }, URLSearchParams,
+    window: { location }, navigator: { platform, userAgent, userAgentData, clipboard: { writeText: text => { calls.push(text); return write(text); } } }, URLSearchParams,
     fetch: () => assert.fail("Drafts must not submit a server request") });
   return { status, copy, message, location, calls, open: () => events.submit({ preventDefault() {} }), copyDraft: () => events.copy() };
 }
@@ -32,7 +32,8 @@ test("Open Email Draft generates a fixed recipient, subject and encoded combined
   assert.equal(url.protocol, "mailto:");
   assert.equal(url.pathname, "contact@autonomousaffairs.com");
   assert.equal(url.searchParams.get("subject"), "Save to Google Photos Album Support Request");
-  assert.equal(url.searchParams.get("body"), r.message.value.trim());
+  assert.ok(url.searchParams.get("body").endsWith(r.message.value.trim()));
+  assert.match(url.searchParams.get("body"), /Product: Save to Google Photos Album/);
   assert.ok(r.location.href.includes("%20"), "Mailto spaces must not use form-style plus encoding");
   assert.match(r.status.textContent, /No email has been sent/);
   assert.equal(r.message.value.startsWith(" "), true);
@@ -41,14 +42,33 @@ test("Open Email Draft generates a fixed recipient, subject and encoded combined
 test("special characters and Unicode remain exact in the email draft", () => {
   const r = fixture(); r.message.value = "Expected: A & B + C?\nInstead: 한글 # 100%";
   r.open();
-  assert.equal(new URL(r.location.href).searchParams.get("body"), r.message.value);
+  assert.ok(new URL(r.location.href).searchParams.get("body").endsWith(r.message.value));
 });
 
 test("Copy Email Draft copies recipient, subject and body without opening email or sending", async () => {
   const r = fixture(); await r.copyDraft();
-  assert.equal(r.calls[0], "To: contact@autonomousaffairs.com\nSubject: Save to Google Photos Album Support Request\n\n" + r.message.value.trim());
+  assert.ok(r.calls[0].startsWith("To: contact@autonomousaffairs.com\nSubject: Save to Google Photos Album Support Request\n\nProduct: Save to Google Photos Album"));
+  assert.ok(r.calls[0].endsWith(r.message.value.trim()));
   assert.equal(r.location.href, "");
   assert.match(r.status.textContent, /copied.*No email has been sent/);
+});
+
+test("both draft actions always include identical product, version, browser and OS details without opt-in", async () => {
+  const r = fixture({ platform: "Win32", userAgentData: { platform: "Windows" }, userAgent: "Chrome Windows test agent" });
+  r.open(); await r.copyDraft();
+  const body = new URL(r.location.href).searchParams.get("body");
+  for (const text of ["Product: Save to Google Photos Album", "Extension Version: 0.16.8", "Browser: Chrome Windows test agent", "OS/Platform: Windows"]) assert.ok(body.includes(text), text);
+  assert.ok(r.calls[0].endsWith(body));
+  assert.doesNotMatch(html, /type="checkbox"|Include details/i);
+});
+
+test("unknown versions are honest and reports never automatically include URL query secrets", () => {
+  for (const version of ["", "0.16.8%0AInjected%3Asecret", "https://private.test/token"]) {
+    const r = fixture({ search: "?version=" + version + "&email=private@example.test&token=secret" }); r.open();
+    const body = new URL(r.location.href).searchParams.get("body");
+    assert.match(body, /Extension Version: Not provided/);
+    assert.doesNotMatch(body, /private@example|secret|private\.test|Injected/);
+  }
 });
 
 test("both actions reject empty or invalid input", async () => {
