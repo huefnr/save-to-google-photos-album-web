@@ -2,7 +2,7 @@
 
 Product, pricing, policies, and support for the **Save to Google Photos Album** Chrome extension, published with GitHub Pages.
 
-The public pricing is Basic (free) and planned Plus (USD $14.99/year), with a
+The public pricing is Basic (free) and planned Plus (USD $19.99/year), with a
 7-day trial once per eligible Google account. Plus is not yet open for purchase.
 Before opening checkout, configure the matching trial in Paddle and enforce
 one-trial eligibility on the backend; website copy does not enforce eligibility.
