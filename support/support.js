@@ -19,8 +19,8 @@ form.addEventListener("submit", (event) => {
   event.preventDefault();
   const message = draftMessage();
   if (!message) return;
-  const query = new URLSearchParams({ subject, body: message });
-  window.location.href = `mailto:${recipient}?${query.toString()}`;
+  const query = `subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+  window.location.href = `mailto:${recipient}?${query}`;
   status.textContent = "Send the draft from your email app. No email has been sent by this page.";
 });
 

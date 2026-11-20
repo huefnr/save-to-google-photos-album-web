@@ -33,6 +33,7 @@ test("Open Email Draft generates a fixed recipient, subject and encoded combined
   assert.equal(url.pathname, "contact@autonomousaffairs.com");
   assert.equal(url.searchParams.get("subject"), "Save to Google Photos Album Support Request");
   assert.equal(url.searchParams.get("body"), r.message.value.trim());
+  assert.ok(r.location.href.includes("%20"), "Mailto spaces must not use form-style plus encoding");
   assert.match(r.status.textContent, /No email has been sent/);
   assert.equal(r.message.value.startsWith(" "), true);
 });
