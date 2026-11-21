@@ -1,21 +1,24 @@
-# Website Instructions
+# Website Copy and Release Rules
 
-- Use Title Case for headings, field labels, buttons and category options, with
-  minor words lowercase internally. Use sentence case for complete help/error
-  messages. Keep brands and acronyms intact.
-- Latest owner decision, November 20, 2026, supersedes the earlier direct-send
-  form: use one required textarea labeled "What was your expectation? What
-  happened instead?" and two actions: Open Email Draft, Copy Email Draft.
-  Do not reintroduce Short Summary, Issue Type or Reply-to Email fields.
-- Draft recipient is contact@autonomousaffairs.com. Opening/copying a draft is
-  not sending a message. Do not call support APIs or claim mail was delivered.
-  Attachments must be added in the email app; do not offer unusable file uploads.
-- Both draft paths must always include the product name, browser/OS and available
-  extension version. Do not put those details behind an opt-in checkbox. Do not
-  automatically include Google identity, browsing URLs or raw query parameters.
-- Public support intake cannot authorize account deletion. Verify ownership
-  through authenticated confirmation; do not infer it from a supplied email.
-- Local implementation and public deployment are separate states. For public
-  fixes verify deployed HTML/JavaScript and server configuration; fixture success
-  does not establish actual email delivery. Never deploy unrelated dirty files.
-- Preserve regression coverage for all owner feedback and asynchronous states.
+- Use Basic plan / Plus plan in explanatory prose. Compact plan headings and
+  actual product names may retain official capitalization; do not rename code
+  enum values or product identifiers to satisfy a copy rule.
+- Section headings use Title Case, e.g. Operator and Availability. Legal copy
+  is country-neutral and links Pricing/checkout instead of duplicating mutable
+  numeric prices or trial durations. Preserve mandatory consumer rights and
+  conditional renewal-consent requirements.
+- Every policy-text change must update that page's Last updated date to the
+  actual revision date and include a test for it. Do not change dates on every
+  build or claim that unmodified historical text was newly reviewed.
+- A public launch task must update prelaunch copy across Home, Terms, Refunds,
+  Privacy, Checkout and README in the same release. Replace not yet open,
+  coming soon, planned subscription/service and when Plus launches with wording
+  that truthfully describes the launched service and Paddle's actual role.
+  Do not change availability claims before explicit launch authorization.
+- Before public launch, run PUBLIC_LAUNCH=1 node scripts/test-launch-copy.mjs;
+  the launch must not proceed while that gate fails. Also run
+  node scripts/test-launch-copy.mjs and scripts/test-policy-pages.mjs for copy
+  releases, then verify the deployed URLs. A successful local run is not proof
+  of publication; inspect actual deployment status and fetched HTML.
+- Never publish unrelated dirty candidate features. Start from the current
+  deployed branch in an isolated worktree and stage only reviewed release files.
