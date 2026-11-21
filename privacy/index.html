@@ -21,7 +21,7 @@
         <div class="page-width">
           <p class="eyebrow">Privacy</p>
           <h1>Privacy Policy</h1>
-          <p class="updated">Save to Google Photos Album &middot; Last updated November 7, 2026</p>
+          <p class="updated">Save to Google Photos Album &middot; Last updated November 21, 2026</p>
         </div>
       </header>
 
@@ -33,9 +33,9 @@
 
         <article class="document-content" lang="en">
         <h2>Overview</h2>
-        <p>Autonomous Affairs, a registered sole proprietorship in South Korea, operates Save to Google Photos Album and is responsible for the application data described here. Contact: <a href="mailto:support@save-to-album.com">support@save-to-album.com</a>. Images are transferred directly from your browser to Google and never pass through our server. A subscription service provides Basic and Plus account features. Plus purchases are not yet open; payment processing described below applies when Plus launches.</p>
+        <p>Autonomous Affairs, operates Save to Google Photos Album and is responsible for the application data described here. Contact: <a href="mailto:support@save-to-album.com">support@save-to-album.com</a>. Images are transferred directly from your browser to Google and never pass through our server. A subscription service provides Basic and Plus account features. Plus purchases are not yet open; payment processing described below applies when Plus launches.</p>
 
-        <h2>What the extension accesses</h2>
+        <h2>What the Extension Accesses</h2>
         <p>When you sign in with Google, the extension requests only:</p>
         <ul>
           <li>Permission to add to your Google Photos (upload the images you choose and create albums);</li>
@@ -44,7 +44,7 @@
         </ul>
         <p>It handles only the specific images you choose to save.</p>
 
-        <h2>Website access</h2>
+        <h2>Website Access</h2>
         <ul>
           <li>The extension does not automatically read all websites by default. Temporary tab access, individual host permissions, optional all-website access, and site-specific right-click restoration are described below.</li>
           <li>When you choose "Save to Google Photos Album" from the right-click menu, Chrome gives the extension temporary access to that one tab (the <code>activeTab</code> permission). It uses this only to find the image you right-clicked, show its dialog and result message, and read that image. The access ends when the tab navigates away or is closed.</li>
@@ -54,10 +54,10 @@
           <li>If you enable persistent right-click restoration on a site, a guard may run on matching pages and frames after navigation to keep the native menu available. The site preference is stored locally. This feature does not bypass login or access to private posts.</li>
         </ul>
 
-        <h2>Data stored by the extension</h2>
+        <h2>Data Stored by the Extension</h2>
         <p>Stored locally in your browser: the Google sign-in tokens, the email address and Google account ID of the signed-in account (so the sign-in can be renewed without asking again), a cached list of the albums this extension created, and a short-lived cache of your Basic or Plus entitlement. Your appearance (theme) preference is stored with Chrome Storage Sync and may sync between Chrome browsers signed in to the same Google account.</p>
 
-        <h2>Account and subscription service</h2>
+        <h2>Account and Subscription Service</h2>
         <p>When the extension checks your plan, it sends a short-lived Google OpenID Connect ID token over HTTPS to the subscription service hosted on Cloudflare. This identity token confirms which Google account is making the request but does not grant the service access to Google Photos. It is validated and discarded; it is not stored.</p>
         <p>The service stores only:</p>
         <ul>
@@ -68,16 +68,16 @@
         </ul>
         <p>The service does not store album names, images, browsing history, Google Photos access tokens, card details, billing addresses, or tax identifiers.</p>
 
-        <h2>Data not collected</h2>
+        <h2>Data Not Collected</h2>
         <p>The extension cannot browse your Google Photos library or read your existing photos. It does not collect your browsing history, search queries, behavioral analytics, or advertising identifiers. The subscription service receives no website content or images.</p>
 
         <h2>Children</h2>
         <p>This is a general-audience service and is not directed to children under 13. The developer does not knowingly collect personal information from children under 13. If the developer learns that such information has been collected, it will be deleted. A parent or guardian may request deletion at <a href="mailto:support@save-to-album.com">support@save-to-album.com</a>.</p>
 
-        <h2>How Google user data is used</h2>
+        <h2>How Google User Data Is Used</h2>
         <p>Google user data obtained through the extension (the images you choose to save, the albums it created, and your email address) is used solely to provide the feature you invoke: uploading the chosen image to your Google Photos, creating or selecting an album for it, and showing which account is connected. It is not used for advertising, profiling, analytics, or to develop, improve, or train any AI or machine-learning models.</p>
 
-        <h2>Data sharing, transfer, and disclosure</h2>
+        <h2>Data Sharing, Transfer, and Disclosure</h2>
         <p>The developer does not sell Google user data or use it for advertising, profiling, credit decisions, or unrelated purposes. Service providers process limited data only to deliver the extension:</p>
         <ul>
           <li>Images you save are uploaded directly from your browser to Google's Photos Library API (<code>photoslibrary.googleapis.com</code>). Google identity information is used to show the connected account and authenticate subscription requests. When you initiate a Plus checkout, your email may be passed to Paddle to prefill checkout. Google's handling of data is governed by the <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a>.</li>
@@ -87,7 +87,7 @@
           <li>There are no advertising networks or behavioral tracking technologies. Optional operational diagnostics are described below.</li>
         </ul>
 
-        <h2>Data protection</h2>
+        <h2>Data Protection</h2>
         <p>The extension protects the sensitive data it handles as follows:</p>
         <ul>
           <li>Authentication uses Google's OAuth 2.0 flow via the Chrome identity API. The extension never sees or stores your Google password.</li>
@@ -98,10 +98,10 @@
           <li>Image saves require your action. Background tasks can renew account state, refresh plan information, send opted-in diagnostics, or restore right-click on sites you enabled.</li>
         </ul>
 
-        <h2>Optional reliability diagnostics</h2>
+        <h2>Optional Reliability Diagnostics</h2>
         <p>Disabled by default. In extension Settings, you may share operation results, allowlisted error codes, version and timing to help detect failures and release regressions. Reports exclude images, album names, email addresses, browsing URLs, page content, Google Photos access tokens and exception text. An existing short-lived identity-only token authenticates reporting; its identity is not stored with diagnostic aggregates. Reporting never opens a sign-in window.</p>
         <p>Local queues are bounded. Reports expire for transmission after 24 hours and are cleared when the extension next runs; a closed browser cannot perform physical deletion. Disabling clears queued reports. Random batch receipts prevent duplicates and expire after seven days. Server aggregates expire after 30 days. Metrics cover reporting users only, not all users. Backend reliability and uptime are also monitored, and alerts without customer data are emailed to the developer. Cloudflare processes connection metadata such as IP addresses when handling requests; the application does not add these to diagnostic tables. Cloudflare operational log retention is separate.</p>
-        <h2>Data retention and deletion</h2>
+        <h2>Data Retention and Deletion</h2>
         <ul>
           <li><strong>Access token, signed-in account (email and account ID), album list, and entitlement cache:</strong> Kept on your device. They are deleted when you click <em>Sign out</em> in the popup (which also revokes the access token with Google) or when you remove the extension. Tokens additionally expire on their own within about one hour.</li>
           <li><strong>Subscription service record:</strong> Retained while needed to provide Basic or Plus, resolve billing issues, prevent fraud, and meet legal obligations. You may request deletion after canceling Plus; data no longer required for those purposes will be deleted within 30 days.</li>
@@ -112,11 +112,11 @@
           <li><strong>Revoking access:</strong> You can revoke the extension's access to your Google account at any time at <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener">myaccount.google.com/permissions</a>. Revocation takes effect immediately; the extension will simply ask you to sign in again if you use it afterwards.</li>
         </ul>
 
-        <h2>Website and support</h2>
+        <h2>Website and Support</h2>
         <p>The website is hosted on GitHub Pages. GitHub and our infrastructure providers may process connection metadata needed to serve and protect it; see the <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub Privacy Statement</a> and <a href="https://www.cloudflare.com/privacypolicy/">Cloudflare Privacy Policy</a>. We do not add advertising trackers to this site. The checkout page loads Paddle.js to provide payment functionality.</p>
         <p>The support form prepares an email draft on your device. The draft automatically includes the product name, browser and OS details, and the extension version when supplied by the extension's support link. It does not automatically include browsing history, page URLs or Google account details. Opening or copying a draft does not send your message to our server or send an email. If you send the draft from your email app, we receive your message, sender address and any attachments you add through our email providers at contact@autonomousaffairs.com. Do not include passwords, tokens or full card numbers. Support correspondence and attachments are kept only as needed to resolve the request and meet legal obligations.</p>
 
-        <h2>Processing purposes and your choices</h2>
+        <h2>Processing Purposes and Your Choices</h2>
         <p>Account and subscription processing is used to deliver requested features and manage the service. Limited backend reliability records help operate and secure it; optional client diagnostics require your opt-in. You may disable diagnostics without losing saving features. Data may be processed outside your country by the providers named above under their applicable privacy terms and safeguards.</p>
         <p>Depending on applicable law, you may request access, correction, deletion, restriction, or portability of personal data, object to certain processing, withdraw optional consent, or complain to your local data protection authority. Email our support address to exercise these rights. We may need proportionate account verification before disclosing or deleting data; do not send identity documents unless specifically requested through an appropriate channel.</p>
 
