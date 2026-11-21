@@ -22,3 +22,8 @@
   of publication; inspect actual deployment status and fetched HTML.
 - Never publish unrelated dirty candidate features. Start from the current
   deployed branch in an isolated worktree and stage only reviewed release files.
+- Price-line fixes must pass `scripts/test-annual-price-line.mjs` locally and
+  again with `--base-url=https://save-to-album.com` after public deployment.
+  Check text-range geometry at desktop/mobile widths, not just matching markup
+  or a locally modified stylesheet. Layout verification must not execute checkout
+  scripts, reopen a transaction or change billing environment/enablement.

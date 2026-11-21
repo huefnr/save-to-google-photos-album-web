@@ -4,6 +4,11 @@ import fs from "node:fs";
 import vm from "node:vm";
 
 const source = fs.readFileSync(new URL("../checkout/checkout.js", import.meta.url), "utf8");
+test('annual checkout price suffix stays inline without wrapping',()=>{
+  const css=fs.readFileSync(new URL('../styles.css',import.meta.url),'utf8');
+  assert.match(css,/\.checkout-price\s*\{[^}]*white-space:\s*nowrap/);
+  assert.match(css,/\.checkout-price span\s*\{[^}]*display:\s*inline\s*;/);
+});
 function run({ token = "test_public", query = "?_ptxn=txn_test", sdk = true, mode = "sandbox", missingTransactionMessage } = {}) {
   const status = { textContent: "" }, badge = { hidden: true };
   let callback, environment;
