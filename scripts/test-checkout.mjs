@@ -2,12 +2,22 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import vm from "node:vm";
+import {createHash} from 'node:crypto';
 
 const source = fs.readFileSync(new URL("../checkout/checkout.js", import.meta.url), "utf8");
 test('annual checkout price suffix stays inline without wrapping',()=>{
   const css=fs.readFileSync(new URL('../styles.css',import.meta.url),'utf8');
   assert.match(css,/\.checkout-price\s*\{[^}]*white-space:\s*nowrap/);
   assert.match(css,/\.checkout-price span\s*\{[^}]*display:\s*inline\s*;/);
+});
+test('checkout stylesheet URLs change with the CSS contents to invalidate old browser caches',()=>{
+  const css=fs.readFileSync(new URL('../styles.css',import.meta.url));
+  const revision=createHash('sha256').update(css).digest('hex').slice(0,12);
+  for(const file of ['../checkout/index.html','../checkout/live-test/index.html']){
+    const html=fs.readFileSync(new URL(file,import.meta.url),'utf8');
+    const href=html.match(/href="([^"]*styles\.css[^"]*)"/)[1];
+    assert.equal(new URL(href,'https://save-to-album.com/checkout/').searchParams.get('v'),revision,file);
+  }
 });
 function run({ token = "test_public", query = "?_ptxn=txn_test", sdk = true, mode = "sandbox", missingTransactionMessage } = {}) {
   const status = { textContent: "" }, badge = { hidden: true };

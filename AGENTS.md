@@ -27,3 +27,7 @@
   Check text-range geometry at desktop/mobile widths, not just matching markup
   or a locally modified stylesheet. Layout verification must not execute checkout
   scripts, reopen a transaction or change billing environment/enablement.
+- Checkout stylesheet `v` must equal the first 12 hex characters of its SHA-256.
+  CSS edits must update both checkout stylesheet references in the same release;
+  `scripts/test-checkout.mjs` enforces this. Include stale-cache visitors in layout
+  verification; a clean browser context alone misses an unchanged asset URL.

@@ -29,6 +29,12 @@ try {
   // Layout-only verification never loads Paddle or executes checkout code.
   await page.route('**/*',route=>route.request().resourceType()==='script'
     || new URL(route.request().url()).origin!==new URL(base).origin?route.abort():route.continue());
+  const staleCss=(await fs.readFile(path.join(root,'styles.css'),'utf8'))
+    .replace('white-space: nowrap;\n}\n\n.checkout-price span','\n}\n\n.checkout-price span')
+    .replace(/(\.checkout-price span\s*\{\s*)display: inline;/,'$1display: block;');
+  // Reproduce an existing visitor's old stylesheet instead of relying on a clean cache.
+  await page.route('**/styles.css*',route=>new URL(route.request().url()).searchParams.get('v')==='20261107-1'
+    ?route.fulfill({contentType:'text/css',body:staleCss}):route.continue());
   for(const endpoint of ['/checkout/','/checkout/live-test/'])for(const width of [1280,768,390,320]){
     await page.setViewportSize({width,height:1000});
     await page.goto(new URL(endpoint,base).href);
