@@ -12,7 +12,9 @@ for(const file of files) {
     assert.doesNotMatch(text,/\b(?:Basic|Plus)\b(?!\s+[Pp]lan\b)/,`${file}: explanatory prose must use Basic plan / Plus plan`);
   }
   if(['terms/index.html','refunds/index.html','privacy/index.html'].includes(file)) {
-    assert.match(source,/Last updated November 21, 2026/,`${file}: record this policy revision date`);
+    const date=file==='terms/index.html'?'November 22, 2026':'November 21, 2026';
+    assert.ok(source.includes(`Last updated ${date}`),`${file}: record this policy revision date`);
+    if(file==='terms/index.html') assert.ok(source.includes(`<p class="updated">Last updated ${date}</p>`),'Terms date line must not repeat the product name');
   }
   if(process.env.PUBLIC_LAUNCH==='1') {
     const visible=source.replace(/<[^>]*>/g,' ');
