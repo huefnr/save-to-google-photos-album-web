@@ -4,7 +4,7 @@ import {fileURLToPath} from 'node:url';
 import path from 'node:path';
 
 const root=fileURLToPath(new URL('../',import.meta.url));
-const files=['index.html','terms/index.html','refunds/index.html','privacy/index.html','checkout/index.html','README.md'];
+const files=['index.html','terms/index.html','refunds/index.html','privacy/index.html','checkout/index.html','faq/index.html','README.md'];
 for(const file of files) {
   const source=fs.readFileSync(path.join(root,file),'utf8');
   for(const paragraph of source.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/g)) {
@@ -16,7 +16,7 @@ for(const file of files) {
   }
   if(process.env.PUBLIC_LAUNCH==='1') {
     const visible=source.replace(/<[^>]*>/g,' ');
-    assert.doesNotMatch(visible,/not yet open|coming soon|planned (?:paid service|subscription)|when (?:the )?Plus(?: plan)? launches|when (?:the )?Plus(?: plan)? becomes available/i,`${file}: remove prelaunch promises before launch`);
+    assert.doesNotMatch(visible,/not yet (?:open|available)|coming soon|planned (?:paid service|subscription|for users)|when (?:the )?Plus(?: plan)? launches|when (?:the )?Plus(?: plan)? becomes available/i,`${file}: remove prelaunch promises before launch`);
   }
 }
 console.log(`PASS: plan names and policy revision dates${process.env.PUBLIC_LAUNCH==='1'?' + launched-copy gate':''}`);
