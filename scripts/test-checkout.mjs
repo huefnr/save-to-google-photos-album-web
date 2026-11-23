@@ -50,7 +50,7 @@ test("decline and checkout errors do not report success", () => {
   r.emit("checkout.closed"); assert.match(r.status.textContent, /Checkout closed/);
 });
 test("missing token, transaction or SDK produce clear non-success states", () => {
-  assert.match(run({ token: "" }).status.textContent, /isn't available/);
+  assert.match(run({ token: "" }).status.textContent, /temporarily unavailable/);
   assert.match(run({ query: "" }).status.textContent, /Manage Plan/);
   assert.match(run({ sdk: false }).status.textContent, /Couldn't open/);
 });
@@ -63,12 +63,29 @@ test("isolated Live checkout does not enable Sandbox or show a no-real-charges l
   assert.match(run({ query: "", missingTransactionMessage: "Open your trial link." }).status.textContent, /Open your trial link/);
 });
 
-test("public and isolated checkout configuration stay in separate environments", () => {
+test("public and isolated checkout configuration both use Live tokens", () => {
   const sandbox = {}, live = {};
   vm.runInNewContext(fs.readFileSync(new URL("../checkout/config.js", import.meta.url), "utf8"), { window: sandbox, Object });
   vm.runInNewContext(fs.readFileSync(new URL("../checkout/live-test/config.js", import.meta.url), "utf8"), { window: live, Object });
-  assert.equal(sandbox.SAVE_TO_ALBUM_CHECKOUT.environment, "sandbox");
-  assert.match(sandbox.SAVE_TO_ALBUM_CHECKOUT.clientToken, /^test_/);
+  assert.equal(sandbox.SAVE_TO_ALBUM_CHECKOUT.environment, "live");
+  assert.match(sandbox.SAVE_TO_ALBUM_CHECKOUT.clientToken, /^live_/);
   assert.equal(live.SAVE_TO_ALBUM_CHECKOUT.environment, "live");
   assert.match(live.SAVE_TO_ALBUM_CHECKOUT.clientToken, /^live_/);
+});
+test('unknown environments or mismatched tokens cannot initialize Paddle', () => {
+  for (const [mode, token] of [['', 'test_public'], ['production', 'live_public'], ['live', 'test_public'], ['sandbox', 'live_public']]) {
+    const result = run({ mode, token });
+    assert.equal(result.environment, undefined);
+    assert.match(result.status.textContent, /unavailable|available|configured/i);
+  }
+});
+test('checkout config and execution scripts use content-hashed cache revisions', () => {
+  for (const page of ['../checkout/index.html', '../checkout/live-test/index.html']) {
+    const html = fs.readFileSync(new URL(page, import.meta.url), 'utf8');
+    for (const match of html.matchAll(/<script src="((?:\.\.\/)?(?:config|checkout)\.js)\?v=([a-f0-9]{12})"><\/script>/g)) {
+      const bytes = fs.readFileSync(new URL(match[1], new URL(page, import.meta.url)));
+      assert.equal(match[2], createHash('sha256').update(bytes).digest('hex').slice(0, 12));
+    }
+    assert.equal([...html.matchAll(/<script src="(?:config|(?:\.\.\/)?checkout)\.js\?v=[a-f0-9]{12}"><\/script>/g)].length, 2);
+  }
 });

@@ -2,10 +2,11 @@
 
 Product, pricing, policies, and support for the **Save to Google Photos Album** Chrome extension, published with GitHub Pages.
 
-The public pricing is Basic plan (free) and planned Plus plan (USD $19.99/year), with a
-14-day trial once per eligible Google account. Plus plan is not yet open for purchase.
-Before opening checkout, configure the matching trial in Paddle and enforce
-one-trial eligibility on the backend; website copy does not enforce eligibility.
+The public pricing is Basic plan (free) and optional Plus plan (USD $19.99/year), with a
+14-day trial once per eligible Google account. Start an upgrade from the signed-in
+extension. The public checkout uses Paddle Live only; the backend remains the
+authority for purchase availability and one-trial eligibility. Website copy does
+not enable purchasing or prove that billing rollout checks have passed.
 Local pricing and tax treatment vary by customer location, and the final price
 is shown at checkout.
 

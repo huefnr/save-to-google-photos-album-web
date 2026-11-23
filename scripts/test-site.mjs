@@ -46,7 +46,7 @@ try {
       if (pathname === "/") {
         await page.getByRole("heading", { name: "Plans", exact: true }).waitFor();
         assert.match(await page.locator("#plans").innerText(), /14-day free trial/);
-        assert.match(await page.locator("#plans").innerText(), /Plus plan is coming soon/);
+        assert.match(await page.locator("#plans").innerText(), /Upgrade to Plus plan from the extension after signing in/);
         assert.match(await page.locator("#plans").innerText(), /19\.99/);
         assert.equal(await page.locator("#faq").count(), 0);
         assert.equal(await page.locator(".operator-note").innerText(), "Developed and operated by Autonomous Affairs");
@@ -57,11 +57,12 @@ try {
       if (pathname === "/faq/") {
         const faq = page.locator(".faq-answers");
         assert.equal(await faq.getByRole('link',{name:'Back to Questions'}).count(),0);
-        assert.equal(await faq.locator("h2").count(), 8);
+        assert.equal(await faq.locator("h2").count(), 9);
         await faq.getByRole("heading", { name: "Can I Save to an Existing Google Photos Album?", exact: true }).waitFor();
         for (const question of [
           "Can I Save Without Choosing an Album?",
           "Why Does the Extension Ask for Website Access?",
+          "Why Can't I Right-Click an Image?",
           "Can the Extension See My Existing Photos?",
           "Do I Need a Subscription?",
           "How Do I Request a Refund?",
@@ -76,7 +77,7 @@ try {
         assert.match(await faq.innerText(), /same name does not connect or merge/);
         assert.match(await faq.innerText(), /Sharing links and comments.*do not transfer/);
         const anchors = await page.locator("#questions a").evaluateAll(nodes => nodes.map(node => node.getAttribute("href")));
-        assert.equal(anchors.length, 8);
+        assert.equal(anchors.length, 9);
         for (const anchor of anchors) {
           await page.locator(`#questions a[href="${anchor}"]`).click();
           assert.equal(new URL(page.url()).hash, anchor);
@@ -95,8 +96,9 @@ try {
         assert.equal(await page.locator("h1").innerText(), "Save to Google Photos Album Plus Plan");
         assert.match(await page.locator("#status").innerText(), /Open checkout from the extension's Manage Plan page/);
         const config = await page.evaluate(() => window.SAVE_TO_ALBUM_CHECKOUT);
-        assert.equal(config.environment, "sandbox");
-        assert.match(config.clientToken, /^test_[a-z0-9]+$/);
+        assert.equal(config.environment, "live");
+        assert.match(config.clientToken, /^live_[a-z0-9]+$/);
+        assert.equal(await page.locator('#test-mode').count(), 0);
       }
       if (pathname === "/checkout/live-test/") {
         assert.equal(await page.locator("h1").innerText(), "Save to Google Photos Album Plus Plan");
@@ -115,7 +117,7 @@ try {
     assert.deepEqual(faults, []);
     await page.close();
   }
-  console.log(`${checks} page/viewport checks passed; links, image loading, pricing and sandbox checkout entry verified. Screenshots: ${output}`);
+  console.log(`${checks} page/viewport checks passed; links, image loading, pricing and Live-only public checkout entry verified. Screenshots: ${output}`);
 } finally {
   if (browser) await browser.close();
   await new Promise(resolve => server.close(resolve));

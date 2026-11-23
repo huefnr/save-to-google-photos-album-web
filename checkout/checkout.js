@@ -5,9 +5,12 @@ const unavailableMessage = "Couldn't open secure checkout. Check your connection
 let completed = false;
 const testModeEl = document.querySelector("#test-mode");
 if (testModeEl) testModeEl.hidden = config.environment !== "sandbox";
+const validEnvironment = config.environment === "live" || config.environment === "sandbox";
+const matchingToken = typeof config.clientToken === "string"
+  && config.clientToken.startsWith(config.environment === "live" ? "live_" : "test_");
 
-if (!config.clientToken) {
-  statusEl.textContent = "Checkout isn't available yet. Return to the extension and try again later.";
+if (!validEnvironment || !matchingToken) {
+  statusEl.textContent = "Checkout is temporarily unavailable. Return to the extension and try again later.";
 } else if (!transactionId) {
   statusEl.textContent = config.missingTransactionMessage || "Open checkout from the extension's Manage Plan page.";
 } else {

@@ -1,6 +1,5 @@
-// Paddle client-side tokens are public by design. Keep this configuration in
-// sandbox until live billing is approved and tested separately.
+// Public checkout must never initialize the Sandbox account.
 window.SAVE_TO_ALBUM_CHECKOUT = Object.freeze({
-  environment: "sandbox",
-  clientToken: "test_b97630a306eb0f322fd939d71a0"
+  environment: "live",
+  clientToken: "live_fe95f1990d7657df421e5e7da69"
 });
