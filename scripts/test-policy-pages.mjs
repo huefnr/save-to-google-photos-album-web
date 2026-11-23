@@ -30,7 +30,7 @@ try {
   for(const width of [390,1280]) {
     const page=await browser.newPage({viewport:{width,height:900}});
     await page.route('**/*',route=>route.request().url().startsWith(base)?route.continue():route.abort());
-    for(const pathname of ['/terms/','/refunds/','/privacy/','/','/checkout/']) {
+    for(const pathname of ['/terms/','/refunds/','/privacy/','/faq/','/','/checkout/']) {
       assert.equal((await page.goto(base+pathname)).status(),200);
       assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,pathname+' overflow');
       const main=await page.locator('main').innerText();
@@ -49,9 +49,24 @@ try {
           assert.match(main,/without that consent/);
           assert.match(main,/price and billing interval displayed at checkout apply/);
         }
-      }else {
+      }else if(pathname!='/faq/') {
         assert.match(main,/14-day free trial/);
         assert.doesNotMatch(main,/7-day free trial/);
+      }
+      if(pathname==='/faq/'||pathname==='/refunds/') {
+        assert.match(main,/within 14 days of the transaction date for a discretionary refund/);
+        assert.match(main,/Approval is not guaranteed/);
+        assert.match(main,/Statutory withdrawal and defect rights may have different deadlines and take precedence/);
+        const request=pathname==='/faq/'?page.locator('section[aria-labelledby="refund-request"]'):page.locator('article');
+        assert.match(await request.innerText(),/Paddle.net and choose Request refund/);
+        assert.equal(await request.locator('ol > li').count(),3);
+        assert.equal(await request.locator('a[href="https://paddle.net"]').count()>0,true);
+        if(pathname==='/refunds/')assert.equal(await page.locator('.updated').innerText(),'Last updated November 23, 2026');
+        if(pathname==='/faq/'){
+          await page.locator('#questions a[href="#refund-request"]').click();
+          const heading=await page.locator('#refund-request').boundingBox();
+          assert.ok(heading.y>=0&&heading.y+heading.height<=900);
+        }
       }
       const links=await page.locator('a[href]').evaluateAll(nodes=>nodes.map(el=>el.href));
       for(const href of new Set(links.filter(href=>href.startsWith(base))))assert.equal((await page.request.get(href)).status(),200,href);

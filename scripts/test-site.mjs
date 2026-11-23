@@ -45,9 +45,9 @@ try {
       assert.ok(images, `Missing image: ${pathname}`);
       if (pathname === "/") {
         await page.getByRole("heading", { name: "Plans", exact: true }).waitFor();
-        assert.match(await page.locator("#plans").innerText(), /7-day free trial/);
-        assert.match(await page.locator("#plans").innerText(), /Plus is coming soon/);
-        assert.match(await page.locator("#plans").innerText(), /14\.99/);
+        assert.match(await page.locator("#plans").innerText(), /14-day free trial/);
+        assert.match(await page.locator("#plans").innerText(), /Plus plan is coming soon/);
+        assert.match(await page.locator("#plans").innerText(), /19\.99/);
         assert.equal(await page.locator("#faq").count(), 0);
         assert.equal(await page.locator(".operator-note").innerText(), "Developed and operated by Autonomous Affairs");
         await page.locator('footer a[href="faq/"]').click();
@@ -56,23 +56,26 @@ try {
       }
       if (pathname === "/faq/") {
         const faq = page.locator(".faq-answers");
-        assert.equal(await faq.locator("h2").count(), 6);
+        assert.equal(await faq.locator("h2").count(), 8);
         await faq.getByRole("heading", { name: "Can I Save to an Existing Google Photos Album?", exact: true }).waitFor();
         for (const question of [
           "Can I Save Without Choosing an Album?",
           "Why Does the Extension Ask for Website Access?",
           "Can the Extension See My Existing Photos?",
           "Do I Need a Subscription?",
+          "How Do I Request a Refund?",
+          "How Long Do I Have to Request a Refund?",
           "Will I Lose My Saved Images If I Uninstall the Extension?"
         ]) await faq.getByRole("heading", { name: question, exact: true }).waitFor();
         assert.equal(await faq.locator('a[href="../privacy/"]').count(), 1);
         assert.equal(await faq.locator('a[href="../#plans"]').count(), 1);
-        assert.equal(await faq.locator("ol > li").count(), 3);
+        assert.equal(await page.locator('section[aria-labelledby="existing-albums"] ol > li').count(), 3);
+        assert.equal(await page.locator('section[aria-labelledby="refund-request"] ol > li').count(), 3);
         assert.match(await faq.innerText(), /Delete only the old album, not its photos or videos/);
         assert.match(await faq.innerText(), /same name does not connect or merge/);
         assert.match(await faq.innerText(), /Sharing links and comments.*do not transfer/);
         const anchors = await page.locator("#questions a").evaluateAll(nodes => nodes.map(node => node.getAttribute("href")));
-        assert.equal(anchors.length, 6);
+        assert.equal(anchors.length, 8);
         for (const anchor of anchors) {
           await page.locator(`#questions a[href="${anchor}"]`).click();
           assert.equal(new URL(page.url()).hash, anchor);

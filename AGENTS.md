@@ -31,3 +31,7 @@
   CSS edits must update both checkout stylesheet references in the same release;
   `scripts/test-checkout.mjs` enforces this. Include stale-cache visitors in layout
   verification; a clean browser context alone misses an unchanged asset URL.
+- Refund help must give actionable receipt/Paddle.net steps and distinguish
+  a discretionary request window from statutory withdrawal/defect rights and
+  the free trial. Do not promise guaranteed/automatic approval or imply that
+  cancellation itself refunds earlier charges. Keep FAQ and Refund Policy in sync.
