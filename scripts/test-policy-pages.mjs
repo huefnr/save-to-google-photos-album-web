@@ -63,6 +63,8 @@ try {
         assert.equal(await request.locator('a[href="https://paddle.net"]').count()>0,true);
         if(pathname==='/refunds/')assert.equal(await page.locator('.updated').innerText(),'Last updated November 23, 2026');
         if(pathname==='/faq/'){
+          assert.equal(await page.locator('a[href="#questions"]').count(),0);
+          assert.doesNotMatch(main,/Back to Questions/);
           await page.locator('#questions a[href="#refund-request"]').click();
           const heading=await page.locator('#refund-request').boundingBox();
           assert.ok(heading.y>=0&&heading.y+heading.height<=900);

@@ -3,6 +3,11 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
 const read=file=>fs.readFileSync(new URL('../'+file,import.meta.url),'utf8');
+test('FAQ omits all Back to Questions return links',()=>{
+  const html=read('faq/index.html');
+  assert.doesNotMatch(html,/Back to Questions|href="#questions"/);
+  assert.match(html,/id="questions"/);
+});
 test('FAQ exposes refund request and deadline questions in its navigation',()=>{
   const html=read('faq/index.html');
   for(const id of ['refund-request','refund-deadline']){

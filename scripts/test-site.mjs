@@ -56,6 +56,7 @@ try {
       }
       if (pathname === "/faq/") {
         const faq = page.locator(".faq-answers");
+        assert.equal(await faq.getByRole('link',{name:'Back to Questions'}).count(),0);
         assert.equal(await faq.locator("h2").count(), 8);
         await faq.getByRole("heading", { name: "Can I Save to an Existing Google Photos Album?", exact: true }).waitFor();
         for (const question of [
@@ -83,8 +84,7 @@ try {
           assert.equal(await target.count(), 1);
           const bounds = await target.boundingBox();
           assert.ok(bounds.y >= 0 && bounds.y + bounds.height <= 900, `Anchor not in view: ${anchor}`);
-          await target.locator("..").getByRole("link", { name: "Back to Questions" }).click();
-          assert.equal(new URL(page.url()).hash, "#questions");
+          await page.locator('#questions').scrollIntoViewIfNeeded();
         }
         await page.goto(base + "/faq/#existing-albums");
         await page.locator("#existing-albums").waitFor();
