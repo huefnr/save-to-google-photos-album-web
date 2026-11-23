@@ -34,6 +34,17 @@ try {
       assert.equal((await page.goto(base+pathname)).status(),200);
       assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,pathname+' overflow');
       const main=await page.locator('main').innerText();
+      const emphasis = await page.locator('main p strong, main p b, main li strong, main li b, main dd strong, main dd b').evaluateAll(nodes => nodes.map(el => ({
+        text: el.textContent, weight: getComputedStyle(el).fontWeight,
+        parentWeight: getComputedStyle(el.parentElement).fontWeight,
+        decoration: getComputedStyle(el).textDecorationLine,
+        cursor: getComputedStyle(el).cursor
+      })));
+      for (const item of emphasis) {
+        assert.equal(item.weight, item.parentWeight, `${pathname}: body emphasis must not be bold: ${item.text}`);
+        assert.match(item.decoration, /underline/, `${pathname}: body emphasis must be underlined`);
+        assert.notEqual(item.cursor, 'pointer', `${pathname}: non-link emphasis must not look clickable`);
+      }
       if(['/terms/','/refunds/','/privacy/'].includes(pathname)) {
         assert.doesNotMatch(main,/South Korea|South Korean|registered sole proprietorship/);
         for(const heading of await page.locator('main h2').allTextContents())for(const word of heading.split(/\s+/)) {

@@ -7,6 +7,12 @@
   is country-neutral and links Pricing/checkout instead of duplicating mutable
   numeric prices or trial durations. Preserve mandatory consumer rights and
   conditional renewal-consent requirements.
+- Body prose uses underlining, not bold, for inline emphasis. Preserve semantic
+  importance where appropriate, but style strong/b inside paragraphs, list items
+  and definitions at the surrounding text weight. Keep headings, prices, labels
+  and buttons unchanged; do not give non-link emphasis a pointer cursor. Verify
+  computed weight and underline on both desktop and mobile. Shared CSS changes
+  must refresh every stylesheet reference, including content-hashed checkout URLs.
 - Every policy-text change must update that page's Last updated date to the
   actual revision date and include a test for it. Do not change dates on every
   build or claim that unmodified historical text was newly reviewed.

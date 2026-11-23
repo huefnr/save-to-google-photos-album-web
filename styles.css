@@ -445,6 +445,12 @@ body > main:not(.home-shell):not(.checkout-shell):not(.support-shell) {
   line-height: 1.46667;
 }
 
+main :is(p, li, dd) :is(strong, b) {
+  font-weight: inherit;
+  text-decoration-line: underline;
+  text-underline-offset: 0.15em;
+}
+
 .document-content h2 {
   margin: 32px 0 8px;
   font-size: 18px;

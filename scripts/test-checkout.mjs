@@ -10,10 +10,12 @@ test('annual checkout price suffix stays inline without wrapping',()=>{
   assert.match(css,/\.checkout-price\s*\{[^}]*white-space:\s*nowrap/);
   assert.match(css,/\.checkout-price span\s*\{[^}]*display:\s*inline\s*;/);
 });
-test('checkout stylesheet URLs change with the CSS contents to invalidate old browser caches',()=>{
+test('all shared stylesheet URLs change with CSS contents to invalidate old browser caches',()=>{
   const css=fs.readFileSync(new URL('../styles.css',import.meta.url));
   const revision=createHash('sha256').update(css).digest('hex').slice(0,12);
-  for(const file of ['../checkout/index.html','../checkout/live-test/index.html']){
+  for(const file of ['../index.html','../faq/index.html','../privacy/index.html',
+    '../terms/index.html','../refunds/index.html','../support/index.html',
+    '../checkout/index.html','../checkout/live-test/index.html']){
     const html=fs.readFileSync(new URL(file,import.meta.url),'utf8');
     const href=html.match(/href="([^"]*styles\.css[^"]*)"/)[1];
     assert.equal(new URL(href,'https://save-to-album.com/checkout/').searchParams.get('v'),revision,file);
