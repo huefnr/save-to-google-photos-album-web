@@ -21,7 +21,7 @@
         <div class="page-width">
           <p class="eyebrow">Privacy</p>
           <h1>Privacy Policy</h1>
-          <p class="updated">Save to Google Photos Album &middot; Last updated November 21, 2026</p>
+          <p class="updated">Save to Google Photos Album &middot; Last updated November 23, 2026</p>
         </div>
       </header>
 
@@ -46,16 +46,18 @@
 
         <h2>Website Access</h2>
         <ul>
-          <li>The extension does not automatically read all websites by default. Temporary tab access, individual host permissions, optional all-website access, and site-specific right-click restoration are described below.</li>
+          <li>The extension does not automatically read all websites by default. Temporary tab access, individual host permissions, optional all-website access, and right-click restoration modes are described below.</li>
           <li>When you choose "Save to Google Photos Album" from the right-click menu, Chrome gives the extension temporary access to that one tab (the <code>activeTab</code> permission). It uses this only to find the image you right-clicked, show its dialog and result message, and read that image. The access ends when the tab navigates away or is closed.</li>
           <li>To read the image, the extension first asks the page itself to load it, in the same way the page already displays it (including the site's own cookies for its own images). The extension does not read, store, or send the site's cookies or any other page content.</li>
           <li>Browser access rules may prevent reading an image with the current permissions. The extension then asks for that image host (for example <code>cdn.example.com</code>) by default, and Chrome may ask you to confirm.</li>
-          <li>You may explicitly choose access to all HTTP/HTTPS websites in the permission window or extension Settings. This is a broad permission to read and change website data, not only images. The extension uses it for image saves you request and does not automatically inject scripts into all websites. You can turn broad access off in Settings; site-by-site prompts may return. Host authentication and download restrictions still apply.</li>
-          <li>If you enable persistent right-click restoration on a site, a guard may run on matching pages and frames after navigation to keep the native menu available. The site preference is stored locally. This feature does not bypass login or access to private posts.</li>
+          <li>You may explicitly choose access to all HTTP/HTTPS websites in the permission window or extension Settings. This is a broad permission to read and change website data, not only images. It supports image saves you request. Granting broad access alone does not enable automatic right-click restoration. You can turn broad access off in Settings; site-by-site prompts may return. Host authentication and download restrictions still apply.</li>
+          <li>For right-click restoration, a small bundled event guard runs at document start on oncuration.com. Opening the extension on a web page can also temporarily restore its menu. If you allow an individual site, a persistent guard may run on matching pages and frames after navigation. Site preferences are stored locally.</li>
+          <li>The separate <u>Automatically Unblock Right-Click</u> option under Settings &gt; Image Access is off by default. Enabling it requires explicit permission for all HTTP/HTTPS websites and registers a bundled guard at document start on permitted pages and frames, including future visits and browser sessions. The guard stops website handlers from blocking the native context menu; it does not read or transmit page content. It may replace a website's custom menu. Already-open pages may need reloading, and some protected pages cannot be changed.</li>
+          <li>Turning it off disables automatic guards in existing pages and removes their future registration, without removing image-access permissions. Revoking all-website access also disables the option. Previously allowed individual sites remain separate. No restoration mode bypasses sign-in, paid access or private-content restrictions.</li>
         </ul>
 
         <h2>Data Stored by the Extension</h2>
-        <p>Stored locally in your browser: the Google sign-in tokens, the email address and Google account ID of the signed-in account (so the sign-in can be renewed without asking again), a cached list of the albums this extension created, and a short-lived cache of your Basic plan or Plus plan entitlement. Your appearance (theme) preference is stored with Chrome Storage Sync and may sync between Chrome browsers signed in to the same Google account.</p>
+        <p>Stored locally in your browser: the Google sign-in tokens, the email address and Google account ID of the signed-in account (so the sign-in can be renewed without asking again), a cached list of the albums this extension created, and a short-lived cache of your Basic plan or Plus plan entitlement. Right-click restoration and diagnostic preferences are device settings and can remain after sign-out. Chrome manages granted website permissions separately. Your appearance (theme) preference is stored with Chrome Storage Sync and may sync between Chrome browsers signed in to the same Google account.</p>
 
         <h2>Account and Subscription Service</h2>
         <p>When the extension checks your plan, it sends a short-lived Google OpenID Connect ID token over HTTPS to the subscription service hosted on Cloudflare. This identity token confirms which Google account is making the request but does not grant the service access to Google Photos. It is validated and discarded; it is not stored.</p>

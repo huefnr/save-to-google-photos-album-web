@@ -60,6 +60,13 @@ try {
           assert.match(main,/without that consent/);
           assert.match(main,/price and billing interval displayed at checkout apply/);
         }
+        if(pathname==='/privacy/') {
+          assert.match(main, /Last updated November 23, 2026/);
+          assert.match(main, /Automatically Unblock Right-Click/);
+          assert.match(main, /off by default/);
+          assert.match(main, /Turning it off disables automatic guards in existing pages/);
+          assert.doesNotMatch(main, /does not automatically inject scripts into all websites/);
+        }
       }else if(pathname!='/faq/') {
         assert.match(main,/14-day free trial/);
         assert.doesNotMatch(main,/7-day free trial/);
