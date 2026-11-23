@@ -27,6 +27,7 @@
             <li><a href="#existing-albums">Can I Save to an Existing Google Photos Album?</a></li>
             <li><a href="#save-to-library">Can I Save Without Choosing an Album?</a></li>
             <li><a href="#website-access">Why Does the Extension Ask for Website Access?</a></li>
+            <li><a href="#right-click-blocked">Why Can't I Right-Click an Image?</a></li>
             <li><a href="#photo-privacy">Can the Extension See My Existing Photos?</a></li>
             <li><a href="#subscription">Do I Need a Subscription?</a></li>
             <li><a href="#refund-request">How Do I Request a Refund?</a></li>
@@ -54,6 +55,12 @@
           <section aria-labelledby="website-access">
             <h2 id="website-access" tabindex="-1">Why Does the Extension Ask for Website Access?</h2>
             <p>Some images are hosted on a different domain or cannot be downloaded with temporary tab access alone. The extension asks for access to the image host when needed. Site-by-site access is the default; access to all websites is optional. Permission does not bypass a site's login or download restrictions.</p>
+          </section>
+          <section aria-labelledby="right-click-blocked">
+            <h2 id="right-click-blocked" tabindex="-1">Why Can't I Right-Click an Image?</h2>
+            <p>Some websites block the native right-click menu. In extension version 0.16.18 or later, open <strong>Settings</strong>, find <strong>Image Access</strong>, and turn on <strong>Automatically Unblock Right-Click</strong>. Once enabled, it applies automatically on future visits. If right-click is still blocked on an already-open page, reload it.</p>
+            <p>This option is off by default and requires permission to access all HTTP/HTTPS websites, shared with <strong>Allow All Websites</strong>. Allowing website access alone does not turn automatic restoration on. You can turn restoration off without removing image access; revoking all-website access also turns restoration off.</p>
+            <p>Restoration may replace a website's custom menu and cannot work on every page. It does not bypass sign-in or paid access. To allow just one site instead, open the extension on that page and choose <strong>Unblock Right-Click on This Site</strong> under <strong>Image Access</strong> when offered.</p>
           </section>
           <section aria-labelledby="photo-privacy">
             <h2 id="photo-privacy" tabindex="-1">Can the Extension See My Existing Photos?</h2>

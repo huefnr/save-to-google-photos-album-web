@@ -63,6 +63,11 @@ try {
         assert.equal(await request.locator('a[href="https://paddle.net"]').count()>0,true);
         if(pathname==='/refunds/')assert.equal(await page.locator('.updated').innerText(),'Last updated November 23, 2026');
         if(pathname==='/faq/'){
+          await page.locator('#questions a[href="#right-click-blocked"]').click();
+          assert.equal(new URL(page.url()).hash, '#right-click-blocked');
+          const answer = page.locator('section[aria-labelledby="right-click-blocked"]');
+          assert.match(await answer.innerText(), /Settings.*Image Access.*Automatically Unblock Right-Click/s);
+          assert.match(await answer.innerText(), /off by default/);
           assert.equal(await page.locator('a[href="#questions"]').count(),0);
           assert.doesNotMatch(main,/Back to Questions/);
           await page.locator('#questions a[href="#refund-request"]').click();
