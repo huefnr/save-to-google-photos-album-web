@@ -21,7 +21,7 @@
         <div class="page-width">
           <p class="eyebrow">Privacy</p>
           <h1>Privacy Policy</h1>
-          <p class="updated">Save to Google Photos Album &middot; Last updated November 23, 2026</p>
+          <p class="updated">Save to Google Photos Album &middot; Last updated November 24, 2026</p>
         </div>
       </header>
 
@@ -51,7 +51,7 @@
           <li>To read the image, the extension first asks the page itself to load it, in the same way the page already displays it (including the site's own cookies for its own images). The extension does not read, store, or send the site's cookies or any other page content.</li>
           <li>Browser access rules may prevent reading an image with the current permissions. The extension then asks for that image host (for example <code>cdn.example.com</code>) by default, and Chrome may ask you to confirm.</li>
           <li>You may explicitly choose access to all HTTP/HTTPS websites in the permission window or extension Settings. This is a broad permission to read and change website data, not only images. It supports image saves you request. Granting broad access alone does not enable automatic right-click restoration. You can turn broad access off in Settings; site-by-site prompts may return. Host authentication and download restrictions still apply.</li>
-          <li>For right-click restoration, a small bundled event guard runs at document start on oncuration.com. Opening the extension on a web page can also temporarily restore its menu. If you allow an individual site, a persistent guard may run on matching pages and frames after navigation. Site preferences are stored locally.</li>
+          <li>Opening the extension on a web page can temporarily restore its context menu using a bundled event guard. If you allow an individual site, a persistent guard may run on matching pages and frames after navigation. No individual website has a mandatory static guard. Site preferences are stored locally.</li>
           <li>The separate <u>Automatically Unblock Right-Click</u> option under Settings &gt; Image Access is off by default. Enabling it requires explicit permission for all HTTP/HTTPS websites and registers a bundled guard at document start on permitted pages and frames, including future visits and browser sessions. The guard stops website handlers from blocking the native context menu; it does not read or transmit page content. It may replace a website's custom menu. Already-open pages may need reloading, and some protected pages cannot be changed.</li>
           <li>Turning it off disables automatic guards in existing pages and removes their future registration, without removing image-access permissions. Revoking all-website access also disables the option. Previously allowed individual sites remain separate. No restoration mode bypasses sign-in, paid access or private-content restrictions.</li>
         </ul>
@@ -65,7 +65,8 @@
         <ul>
           <li>Your stable Google account identifier (not your Google password);</li>
           <li>Paddle customer and subscription identifiers, plan status, price identifier, renewal or cancellation effective date;</li>
-          <li>Up to 10 Google Photos album identifiers you choose to keep active on Basic, and identifiers for app-created albums you hide using Plus preferences; and</li>
+          <li>Up to 10 Google Photos album identifiers you choose to keep active on Basic, and identifiers for app-created albums you hide using Plus preferences;</li>
+          <li>Account-specific trial-use history to enforce one introductory offer per Google account; and</li>
           <li>Webhook event identifiers used to prevent Paddle events from being processed twice.</li>
         </ul>
         <p>The service does not store album names, images, browsing history, Google Photos access tokens, card details, billing addresses, or tax identifiers.</p>
@@ -82,7 +83,7 @@
         <h2>Data Sharing, Transfer, and Disclosure</h2>
         <p>The developer does not sell Google user data or use it for advertising, profiling, credit decisions, or unrelated purposes. Service providers process limited data only to deliver the extension:</p>
         <ul>
-          <li>Images you save are uploaded directly from your browser to Google's Photos Library API (<code>photoslibrary.googleapis.com</code>). Google identity information is used to show the connected account and authenticate subscription requests. When you initiate a Plus checkout, your email may be passed to Paddle to prefill checkout. Google's handling of data is governed by the <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a>.</li>
+          <li>Images you save are uploaded directly from your browser to Google's Photos Library API (<code>photoslibrary.googleapis.com</code>). Google identity information is used to show the connected account and authenticate subscription requests. When you initiate a Plus checkout, your email may be passed to Paddle to prefill checkout and your stable Google account identifier is sent as purchase-linking metadata. Neither a Google Photos access token nor an image is sent to Paddle. Google's handling of data is governed by the <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a>.</li>
           <li>Cloudflare hosts the subscription API and database and processes the identity and subscription fields described above.</li>
           <li>Paddle acts as merchant of record for Plus. Paddle processes checkout, payment method, billing address, tax, invoices, refunds, and subscription management under the <a href="https://www.paddle.com/legal/privacy" target="_blank" rel="noopener">Paddle Privacy Notice</a>. The developer does not receive full card details.</li>
           <li>To save an image, the extension downloads it from the website that hosts it, then uploads it directly to Google. Neither Cloudflare nor Paddle receives that image.</li>
@@ -93,7 +94,7 @@
         <p>The extension protects the sensitive data it handles as follows:</p>
         <ul>
           <li>Authentication uses Google's OAuth 2.0 flow via the Chrome identity API. The extension never sees or stores your Google password.</li>
-          <li>The Google Photos OAuth access token is kept only in Chrome's extension-private storage (<code>chrome.storage.local</code>). It is never sent to the subscription service. The service receives a separate identity-only ID token that cannot access Google Photos.</li>
+          <li>Short-lived Google sign-in tokens are kept in Chrome's memory-backed, extension-private session storage (<code>chrome.storage.session</code>), not disk-backed local storage. The Google Photos access token is sent only to Google, never to the subscription service. The service receives a separate identity-only ID token that cannot access Google Photos.</li>
           <li>The token is short-lived (it expires within about one hour and is re-obtained through Google when needed). No refresh token is stored.</li>
           <li>All network traffic between the extension, Google, the subscription service, and Paddle uses HTTPS/TLS. Paddle webhook signatures are verified before subscription state is changed.</li>
           <li>The extension requests only the minimum scopes needed: it can add images and create albums, and can list only the albums it created. It cannot read, browse, or download your existing photos or albums.</li>
@@ -106,7 +107,8 @@
         <h2>Data Retention and Deletion</h2>
         <ul>
           <li><strong>Access token, signed-in account (email and account ID), album list, and entitlement cache:</strong> Kept on your device. They are deleted when you click <em>Sign out</em> in the popup (which also revokes the access token with Google) or when you remove the extension. Tokens additionally expire on their own within about one hour.</li>
-          <li><strong>Subscription service record:</strong> Retained while needed to provide Basic or Plus, resolve billing issues, prevent fraud, and meet legal obligations. You may request deletion after canceling Plus; data no longer required for those purposes will be deleted within 30 days.</li>
+          <li><strong>Subscription service record:</strong> Retained while needed to provide Basic plan or Plus plan access, resolve billing issues, prevent fraud, and meet legal obligations. You may request deletion at any time through Support. We verify ownership, review ongoing billing or legal obligations, and delete data no longer needed within 30 days of verification. A request does not itself cancel billing, complete deletion or delete your Google Photos content.</li>
+          <li><strong>Trial and replay safeguards after deletion:</strong> Purpose-specific one-way fingerprints of the account and ended subscription, the used-trial timestamp if applicable, and deletion timestamp may remain to enforce one trial per Google account and prevent old billing events from recreating deleted records. Original account identifiers, billing links and album preferences are removed. These fingerprints are pseudonymous personal data, not anonymous data, and are not used for advertising or analytics. Necessity is reviewed at least annually and retention lasts only while needed for these purposes. Requests and objections are assessed under applicable law; deleting application data does not reset trial eligibility.</li>
           <li><strong>Payment and transaction records:</strong> Retained by Paddle according to its legal and tax obligations and privacy notice.</li>
           <li><strong>Theme preference:</strong> Kept in Chrome Storage Sync until you remove the extension.</li>
           <li><strong>Access to image hosts you allowed:</strong> Kept by Chrome until you remove it on the extension's details page or remove the extension. The extension keeps no record of the sites you visited.</li>

@@ -13,5 +13,7 @@ Before enabling public purchasing or announcing launch:
 - [ ] Run the policy/pricing browser tests and verify the published URLs after
   deployment. Do not equate a pushed commit with a finished Pages deployment.
 
-The prelaunch gate is intentionally red until launch copy is prepared. Adding
-this checklist does not launch the service or create an unattended automation.
+The service uses current-operation wording and Live checkout. Run the launched-
+copy gate for every copy release, not only the initial launch. The November 24
+Privacy candidate matches 0.16.19; publication and Store visibility remain
+separate actions. A passing local test is not evidence of a public deployment.
