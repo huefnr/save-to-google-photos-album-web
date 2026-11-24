@@ -113,7 +113,7 @@ img {
 /* Homepage */
 .home-shell {
   max-width: 760px;
-  margin: 24px auto 0;
+  margin: 16px auto 0;
 }
 
 .home-card,
@@ -126,7 +126,7 @@ body > main:not(.home-shell):not(.checkout-shell):not(.support-shell) {
 }
 
 .home-card {
-  padding: 34px 48px 44px;
+  padding: 16px 48px 44px;
   border: 0;
   border-radius: 0;
   box-shadow: none;
@@ -756,6 +756,10 @@ main :is(p, li, dd) :is(strong, b) {
 
   .support-shell {
     padding-bottom: 24px;
+  }
+
+  .home-card {
+    padding-top: 24px;
   }
 
   .home-brand {

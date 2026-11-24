@@ -44,6 +44,14 @@ try {
       const images = await page.locator("img").evaluateAll(nodes => nodes.every(node => node.complete && node.naturalWidth > 0));
       assert.ok(images, `Missing image: ${pathname}`);
       if (pathname === "/") {
+        assert.equal(await page.locator("main .product-title").count(), 0);
+        assert.match(await page.locator("main h1").innerText(), /^Right-click an image/);
+        const supportCopy = page.locator('#support-heading + p');
+        assert.equal(await supportCopy.innerText(), 'Please read the FAQ before reporting an issue.');
+        assert.equal(await supportCopy.getByRole('link', { name: 'FAQ', exact: true }).getAttribute('href'), 'faq/');
+        assert.equal(await supportCopy.getByRole('link', { name: 'reporting an issue', exact: true }).getAttribute('href'), 'support/');
+        const introGap = await page.evaluate(() => document.querySelector("main h1").getBoundingClientRect().top - document.querySelector(".site-header").getBoundingClientRect().bottom);
+        assert.ok(introGap >= 16 && introGap <= 32, `Homepage intro gap: ${introGap}`);
         await page.getByRole("heading", { name: "Plans", exact: true }).waitFor();
         assert.match(await page.locator("#plans").innerText(), /14-day free trial/);
         assert.match(await page.locator("#plans").innerText(), /Upgrade to Plus plan from the extension after signing in/);
@@ -91,7 +99,7 @@ try {
         await page.locator("#existing-albums").waitFor();
         await page.goto(base + "/faq/");
       }
-      if (pathname === "/support/") assert.equal(await page.locator('a[href="../faq/#existing-albums"]').count(), 1);
+      if (pathname === "/support/") assert.equal(await page.getByRole('link', { name: 'Frequently Asked Questions', exact: true }).getAttribute('href'), '../faq/');
       if (pathname === "/checkout/") {
         assert.equal(await page.locator("h1").innerText(), "Save to Google Photos Album Plus Plan");
         assert.match(await page.locator("#status").innerText(), /Open checkout from the extension's Manage Plan page/);
