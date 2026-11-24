@@ -23,14 +23,19 @@ test("latest owner form has one combined question and exactly two draft actions"
   assert.doesNotMatch(html, /<select|type="email"|name="category"|name="subject"|name="expected"|Short [Ss]ummary|Reply.to [Ee]mail|Send Request/);
   assert.match(html, />Open Email Draft<\/button>/);
   assert.match(html, />Copy Email Draft<\/button>/);
-  assert.match(html, /attachments there/);
+  assert.match(html, /<a href="mailto:support@save-to-album\.com">support@save-to-album\.com<\/a>/);
+  assert.match(html, /use the form below to write an email draft/);
+  assert.doesNotMatch(html + source, /contact@autonomousaffairs\.com/);
+  const privacy = fs.readFileSync(new URL("../privacy/index.html", import.meta.url), "utf8");
+  assert.doesNotMatch(privacy, /contact@autonomousaffairs\.com/);
+  assert.match(privacy, /Last updated November 24, 2026/);
 });
 
 test("Open Email Draft generates a fixed recipient, subject and encoded combined message without sending", () => {
   const r = fixture(); r.open();
   const url = new URL(r.location.href);
   assert.equal(url.protocol, "mailto:");
-  assert.equal(url.pathname, "contact@autonomousaffairs.com");
+  assert.equal(url.pathname, "support@save-to-album.com");
   assert.equal(url.searchParams.get("subject"), "Save to Google Photos Album Support Request");
   assert.ok(url.searchParams.get("body").endsWith(r.message.value.trim()));
   assert.match(url.searchParams.get("body"), /Product: Save to Google Photos Album/);
@@ -47,7 +52,7 @@ test("special characters and Unicode remain exact in the email draft", () => {
 
 test("Copy Email Draft copies recipient, subject and body without opening email or sending", async () => {
   const r = fixture(); await r.copyDraft();
-  assert.ok(r.calls[0].startsWith("To: contact@autonomousaffairs.com\nSubject: Save to Google Photos Album Support Request\n\nProduct: Save to Google Photos Album"));
+  assert.ok(r.calls[0].startsWith("To: support@save-to-album.com\nSubject: Save to Google Photos Album Support Request\n\nProduct: Save to Google Photos Album"));
   assert.ok(r.calls[0].endsWith(r.message.value.trim()));
   assert.equal(r.location.href, "");
   assert.match(r.status.textContent, /copied.*No email has been sent/);

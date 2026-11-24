@@ -1,7 +1,7 @@
 const form = document.querySelector("#issueForm");
 const status = document.querySelector("#formStatus");
 const copyButton = document.querySelector("#copyDraft");
-const recipient = "contact@autonomousaffairs.com";
+const recipient = "support@save-to-album.com";
 const subject = "Save to Google Photos Album Support Request";
 let copying = false;
 
