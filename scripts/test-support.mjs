@@ -25,6 +25,8 @@ test("latest owner form has one combined question and exactly two draft actions"
   assert.match(html, />Copy Email Draft<\/button>/);
   assert.match(html, /<a href="mailto:support@save-to-album\.com">support@save-to-album\.com<\/a>/);
   assert.match(html, /use the form below to write an email draft/);
+  assert.match(html, /<a href="\.\.\/faq\/">Frequently Asked Questions<\/a>/);
+  assert.doesNotMatch(html, /Can't find an existing album|Read the FAQ about supported albums/);
   assert.doesNotMatch(html + source, /contact@autonomousaffairs\.com/);
   const privacy = fs.readFileSync(new URL("../privacy/index.html", import.meta.url), "utf8");
   assert.doesNotMatch(privacy, /contact@autonomousaffairs\.com/);

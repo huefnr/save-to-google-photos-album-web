@@ -568,7 +568,7 @@ main :is(p, li, dd) :is(strong, b) {
 .support-shell {
   width: min(calc(100% - 40px), 820px);
   margin: 24px auto 0;
-  padding: 42px 48px 48px;
+  padding: 42px 48px 24px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #ffffff;
@@ -688,6 +688,10 @@ main :is(p, li, dd) :is(strong, b) {
   margin: 2px 0 0;
 }
 
+.form-status:empty {
+  display: none;
+}
+
 .support-fallback {
   margin: 22px 0 0;
   padding-top: 18px;
@@ -748,6 +752,10 @@ main :is(p, li, dd) :is(strong, b) {
   .support-shell {
     padding-top: 32px;
     padding-bottom: 32px;
+  }
+
+  .support-shell {
+    padding-bottom: 24px;
   }
 
   .home-brand {
